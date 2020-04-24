@@ -47,7 +47,7 @@ public class TestngTecno {
 		caps.setCapability("platformName", "Android");
 		
 		caps.setCapability("platformVersion", "5.1");
-		caps.setCapability("automationName", "UiAutomator2");
+		//caps.setCapability("automationName", "UiAutomator2");
 		caps.setCapability("appPackage", "com.obertys.fadel.customercorner");
 		caps.setCapability("appActivity", "com.obertys.fadel.customercorner.Vues.OuvertureCompte.Activities.SplashScreenActivityUI");
 		caps.setCapability("noReset", "true");
