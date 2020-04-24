@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Failed suite [Suite]]">
+  <test thread-count="5" name="Test1(failed)(failed)">
+    <parameter name="platformVersion_" value="5.1"/>
+    <parameter name="URL_" value="0.0.0.0:4723/wd/hub"/>
+    <parameter name="UDID_" value="0153801730301908"/>
+    <parameter name="deviceName_" value="Tecno J8"/>
+    <classes>
+      <class name="appium_Package.TestngTecno">
+        <methods>
+          <include name="CreateAccount"/>
+          <include name="setupAppium"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- appium_Package.TestngTecno -->
+    </classes>
+  </test> <!-- Test1(failed)(failed) -->
+</suite> <!-- Failed suite [Failed suite [Suite]] -->
