@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 //import org.junit.AfterClass;
@@ -26,6 +27,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -43,13 +46,13 @@ public class TestngSamsung {
 
 			//Set the Desired Capabilities
 			DesiredCapabilities caps = new DesiredCapabilities();
-			caps.setCapability("deviceName", "Galaxy Tab A(2016)");
-			caps.setCapability("udid", "3300553fd857b59f"); //Give Device ID of your mobile phone
-			//caps.setCapability("deviceId", "192.168.1.172:5555");
+			caps.setCapability("deviceName", "Galaxy Tab A (2016)");
+			//caps.setCapability("udid", "3300553fd857b59f"); //Give Device ID of your mobile phone
+			caps.setCapability("deviceId", "192.168.1.172:5555");
 			caps.setCapability("platformName", "Android");
 			
 			caps.setCapability("platformVersion", "8.1.0");
-			//caps.setCapability("automationName", "UiAutomator2");
+			caps.setCapability("automationName", "UiAutomator2");
 			caps.setCapability("appPackage", "com.obertys.fadel.customercorner");
 			caps.setCapability("appActivity", "com.obertys.fadel.customercorner.Vues.OuvertureCompte.Activities.SplashScreenActivityUI");
 			//caps.setCapability("appActivity", "com.obertys.fadel.customercorner.Vues.OuvertureCompte.Activities.LoginActivityUI");
@@ -100,7 +103,7 @@ public class TestngSamsung {
 		}
 
 	 
-	@Test(invocationCount = 10, skipFailedInvocations = true)
+	@Test
 	public void CreateAccount() throws InterruptedException {
 		// Page Home				
 
@@ -123,104 +126,126 @@ public class TestngSamsung {
 		
 		Thread.sleep(1500);
 		// Click Pièce d'identité RECTO *
-		List<MobileElement> Cni = driver.findElementsByClassName("android.widget.Button");
-		System.out.println("*** Liste des faces à utiliser pour la Carte d'Identité National ***");
-		for (MobileElement faceCNI : Cni) {
-			System.out.println("==> : " + faceCNI.getText());
-		}
-
-		Cni.get(0).click();
-
-		MobileElement CniItems = driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout");
-
-
-		if(CniItems.isDisplayed()) {
-			//System.out.println("Sélection du face : " + Cni.get(0).getText());
-			//Cni.get(0).click();
-			MobileElement btnGalerieScanRecto = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"));
-			btnGalerieScanRecto.click();
-			System.out.println("Click sur le Bouton Galerie et scan");
-
-			Thread.sleep(2000);
-			@SuppressWarnings("rawtypes")
-			TouchAction FolderPhotoRecto = new TouchAction(driver);
-			FolderPhotoRecto.tap(PointOption.point(490, 350)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(2000))).perform();
-			System.out.println("Selection du photo recto");
-			
-			System.out.println("Crop du Photo");
-			@SuppressWarnings("rawtypes")
-			TouchAction CropCorner = new TouchAction(driver);
-			CropCorner.press(PointOption.point(1181, 162)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(983, 767)).release().perform();
-			System.out.println("Crop côté droit RECTO");
-			
-			Thread.sleep(2000);
-			CropCorner.press(PointOption.point(10, 1750)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(146, 1297)).release().perform();
-			System.out.println("Crop côté gauche RECTO");
-			
-			
-			MobileElement terminer = driver.findElement(By.id("com.sec.android.gallery3d:id/save"));
-			terminer.click();
-			System.out.println("Enregistrement du photo");
-			// photo validé
-			Thread.sleep(2000);
-			MobileElement okOCR = driver.findElement(By.id("com.obertys.fadel.customercorner:id/confirm_button"));
-			okOCR.click();
-			System.out.println("Validation du OCR");
-			Thread.sleep(1000);
-			@SuppressWarnings("rawtypes")
-			TouchAction BottomToTop = new TouchAction(driver);
-			// click sur le bouton Galerie et Scan
-			BottomToTop.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000))).moveTo(PointOption.point(350, 580)).release().perform();			
-			System.out.println("==> Swipe Vertical : défilement vers photo verso");
-
-			Thread.sleep(1500);
-			MobileElement BtnScanGallery = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.Button"));
-
-			BtnScanGallery.click();
-
-			// select button Scan et gallery
-			MobileElement Scan = driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
-			Scan.click();
-			System.out.println("Choix du photo verso : Galerie et Scan");
-
-			Thread.sleep(2000);
-			@SuppressWarnings("rawtypes")
-			TouchAction FolderPhotoVerso = new TouchAction(driver);
-			FolderPhotoVerso.tap(PointOption.point(250, 350)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000))).perform();
-			System.out.println("Click sur le photo verso");
-			
-			CropCorner.press(PointOption.point(1181, 162)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(1024, 866)).release().perform();
-			System.out.println("Crop côté droit verso");
-			
-			Thread.sleep(2000);
-			CropCorner.press(PointOption.point(17, 1752)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(205, 1376)).release().perform();
-			System.out.println("Crop côté gauche verso");
-			
-
-			MobileElement terminer2 = driver.findElement(By.id("com.sec.android.gallery3d:id/save"));
-			terminer2.click();
-			Thread.sleep(2000);
-			MobileElement okOCR2 = driver.findElement(By.id("com.obertys.fadel.customercorner:id/confirm_button"));
-			okOCR2.click();
-			System.out.println("Enregistrement de la photo Verso");
-
-			Thread.sleep(2000);
-			@SuppressWarnings("rawtypes")
-			TouchAction Bottom = new TouchAction(driver);
-			// click sur le bouton Galerie et Scan
-			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-			
-			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-			
-			Bottom.press(PointOption.point(350, 600)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-			System.out.println("==> Swipe Vertical : Go to bottom");
+		/*
+		 * List<MobileElement> Cni =
+		 * driver.findElementsByClassName("android.widget.Button"); System.out.
+		 * println("*** Liste des faces à utiliser pour la Carte d'Identité National ***"
+		 * ); for (MobileElement faceCNI : Cni) { System.out.println("==> : " +
+		 * faceCNI.getText()); }
+		 * 
+		 * Cni.get(0).click();
+		 * 
+		 * MobileElement CniItems = driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout"
+		 * );
+		 * 
+		 * 
+		 * if(CniItems.isDisplayed()) { //System.out.println("Sélection du face : " +
+		 * Cni.get(0).getText()); //Cni.get(0).click(); MobileElement
+		 * btnGalerieScanRecto = driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"
+		 * )); btnGalerieScanRecto.click();
+		 * System.out.println("Click sur le Bouton Galerie et scan");
+		 * 
+		 * Thread.sleep(2000);
+		 * 
+		 * @SuppressWarnings("rawtypes") TouchAction FolderPhotoRecto = new
+		 * TouchAction(driver); FolderPhotoRecto.tap(PointOption.point(490,
+		 * 350)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(2000))).perform();
+		 * System.out.println("Selection du photo recto");
+		 * 
+		 * System.out.println("Crop du Photo");
+		 * 
+		 * @SuppressWarnings("rawtypes") TouchAction CropCorner = new
+		 * TouchAction(driver); CropCorner.press(PointOption.point(1181,
+		 * 162)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(983, 767)).release().perform();
+		 * System.out.println("Crop côté droit RECTO");
+		 * 
+		 * Thread.sleep(2000); CropCorner.press(PointOption.point(10,
+		 * 1750)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(146, 1297)).release().perform();
+		 * System.out.println("Crop côté gauche RECTO");
+		 * 
+		 * 
+		 * MobileElement terminer =
+		 * driver.findElement(By.id("com.sec.android.gallery3d:id/save"));
+		 * terminer.click(); System.out.println("Enregistrement du photo"); // photo
+		 * validé Thread.sleep(2000); MobileElement okOCR =
+		 * driver.findElement(By.id("com.obertys.fadel.customercorner:id/confirm_button"
+		 * )); okOCR.click(); System.out.println("Validation du OCR");
+		 * Thread.sleep(1000);
+		 * 
+		 * @SuppressWarnings("rawtypes") TouchAction BottomToTop = new
+		 * TouchAction(driver); // click sur le bouton Galerie et Scan
+		 * BottomToTop.press(PointOption.point(350,
+		 * 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000))).moveTo(
+		 * PointOption.point(350, 580)).release().perform();
+		 * System.out.println("==> Swipe Vertical : défilement vers photo verso");
+		 * 
+		 * Thread.sleep(1500); MobileElement BtnScanGallery =
+		 * driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.Button"
+		 * ));
+		 * 
+		 * BtnScanGallery.click();
+		 * 
+		 * // select button Scan et gallery MobileElement Scan =
+		 * driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"
+		 * ); Scan.click();
+		 * System.out.println("Choix du photo verso : Galerie et Scan");
+		 * 
+		 * Thread.sleep(2000);
+		 * 
+		 * @SuppressWarnings("rawtypes") TouchAction FolderPhotoVerso = new
+		 * TouchAction(driver); FolderPhotoVerso.tap(PointOption.point(250,
+		 * 350)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000))).perform();
+		 * System.out.println("Click sur le photo verso");
+		 * 
+		 * CropCorner.press(PointOption.point(1181,
+		 * 162)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(1024, 866)).release().perform();
+		 * System.out.println("Crop côté droit verso");
+		 * 
+		 * Thread.sleep(2000); CropCorner.press(PointOption.point(17,
+		 * 1752)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(205, 1376)).release().perform();
+		 * System.out.println("Crop côté gauche verso");
+		 * 
+		 * 
+		 * MobileElement terminer2 =
+		 * driver.findElement(By.id("com.sec.android.gallery3d:id/save"));
+		 * terminer2.click(); Thread.sleep(2000); MobileElement okOCR2 =
+		 * driver.findElement(By.id("com.obertys.fadel.customercorner:id/confirm_button"
+		 * )); okOCR2.click(); System.out.println("Enregistrement de la photo Verso");
+		 * 
+		 * Thread.sleep(2000);
+		 * 
+		 * @SuppressWarnings("rawtypes") TouchAction Bottom = new TouchAction(driver);
+		 * // click sur le bouton Galerie et Scan Bottom.press(PointOption.point(350,
+		 * 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(350, 400)).release().perform();
+		 * 
+		 * Bottom.press(PointOption.point(350,
+		 * 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(350, 400)).release().perform();
+		 * Bottom.press(PointOption.point(350,
+		 * 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(350, 400)).release().perform();
+		 * 
+		 * Bottom.press(PointOption.point(350,
+		 * 600)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(350, 400)).release().perform();
+		 * System.out.println("==> Swipe Vertical : Go to bottom");
+		 */
 
 			MobileElement btnSuivant = driver.findElement(By.id("com.obertys.fadel.customercorner:id/suivant"));
 			btnSuivant.click();
 			System.out.println("click sur le button Suivant");
 
-
+			@SuppressWarnings("rawtypes")
+			TouchAction Bottom = new TouchAction(driver);
 
 			/********************** Inscrition done ***********************/
 			/**************************************************************/
@@ -235,25 +260,176 @@ public class TestngSamsung {
 			// Première Section
 			relativeLayout.get(0).click();
 			
+			MobileElement lastName = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.EditText"));
+			lastName.clear();
+			lastName.sendKeys("Diop");
+			
+			MobileElement FirstName = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.FrameLayout/android.widget.EditText"));
+			FirstName.clear();
+			FirstName.sendKeys("Aicha");
+			
+			
 			// Prénom et Nom du jeune fille de la mère
 			MobileElement firstNameLastNameMother = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[5]/android.widget.FrameLayout/android.widget.EditText"));
 			firstNameLastNameMother.clear();
 			firstNameLastNameMother.sendKeys("Aissatou Diop");
 			System.out.println("Prénom et Nom de jeune fille de la mère");
+			
+			MobileElement dateNaissance = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[6]/android.widget.FrameLayout/android.widget.EditText"));
+			dateNaissance.clear();
+			dateNaissance.sendKeys("20/12/1995");
+			
+			MobileElement ville = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText"));
+			ville.clear();
+			ville.sendKeys("Douala");
+			
+			MobileElement lieuDeNaissance = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[8]/android.widget.FrameLayout/android.widget.EditText"));
+			lieuDeNaissance.clear();
+			lieuDeNaissance.sendKeys("Douala");
+			System.out.println("Lieu de Naissance : " + lieuDeNaissance.getText());
+			
+			// Numéro pièce d'identité
+			MobileElement numberCni = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[10]/android.widget.FrameLayout/android.widget.EditText"));
+		    
+		    int random1 = ThreadLocalRandom.current().nextInt(328635222, 828635222 + 1);
+		    String randomCni = String.valueOf(random1);
+		    		    
+		    if(numberCni != null) {
+		    	numberCni.clear();
+		    	numberCni.sendKeys("109 " + randomCni);		    	
+		    }
+		    System.out.println("Numéro de la pièce d'identité : " + numberCni.getText());
 		
-			MobileElement lieuDelivrance = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[10]/android.widget.FrameLayout/android.widget.EditText"));
+			MobileElement lieuDelivrance = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[11]/android.widget.FrameLayout/android.widget.EditText"));
 			lieuDelivrance.clear();
-			lieuDelivrance.sendKeys("Dakar");
+			lieuDelivrance.sendKeys("Douala");
 			System.out.println("Lieu de Délivrance : " + lieuDelivrance.getText());
 
-
+			//Délivrer le
+			MobileElement dateDelivrance = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[12]/android.widget.FrameLayout/android.widget.EditText"));
+			dateDelivrance.clear();
+			dateDelivrance.sendKeys("15-07-2018");
+			System.out.println("Date de Délivrance : " + dateDelivrance.getText());
+			
+			// Expiration CNI
+			//Délivrer le
+			MobileElement expiration = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[13]/android.widget.FrameLayout/android.widget.EditText"));
+			expiration.clear();
+			expiration.sendKeys("15-07-2028");
+			System.out.println("Date de Délivrance : " + expiration.getText());
+			
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			
 			// Tél Mobile 1
-			MobileElement callMobile = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[13]/android.widget.FrameLayout/android.widget.EditText"));
-			callMobile.clear();
-			callMobile.sendKeys("334502030");
-
-			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+		/*
+		 * MobileElement callMobile = driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[15]/android.widget.FrameLayout/android.widget.EditText"
+		 * )); callMobile.clear(); callMobile.sendKeys("334502030");
+		 * 
+		 * MobileElement el17 = (MobileElement) driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[1]"
+		 * ); el17.sendKeys("ivoirienne");
+		 * 
+		 * MobileElement el4 = (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/firstname");
+		 * el4.sendKeys("Moussa"); MobileElement el5 = (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/lastname");
+		 * el5.sendKeys("Diop"); MobileElement el6 = (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/sexe");
+		 * el6.sendKeys("M"); MobileElement el7 = (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/dateNaiss");
+		 * el7.click(); el7.sendKeys("20/12/1991"); MobileElement el8 = (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/lieuNaiss");
+		 * el8.sendKeys("Douala"); MobileElement el9 = (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/delivrance");
+		 * el9.sendKeys("12/02/2018"); MobileElement el10 = (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/expiration");
+		 * el10.sendKeys("12/02/2028"); MobileElement el11 = (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/adresse");
+		 * el11.sendKeys("Douala"); MobileElement el12 = (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/suivant");
+		 * el12.click(); MobileElement el13 = (MobileElement) driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.Button"
+		 * ); el13.click(); driver.navigate().back(); MobileElement el14 =
+		 * (MobileElement)
+		 * driver.findElementById("com.obertys.fadel.customercorner:id/suivant");
+		 * el14.click(); MobileElement el15 = (MobileElement) driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.Button"
+		 * ); el15.click();
+		 */
+			  
+			MobileElement el16 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.EditText");
+			el16.sendKeys("774220139");
+			MobileElement pays = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[1]");
+			
+			pays.sendKeys("ivoirienne");
+			MobileElement el19 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[3]");
+			el19.sendKeys("BECIDA");
+			MobileElement el20 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[8]");
+			el20.click();
+			el20.click();
+			MobileElement el21 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[4]");
+			el21.sendKeys("Abedem");
+			MobileElement el22 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.Button");
+			el22.click();
+			MobileElement el23 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.CheckBox[1]");
+			el23.click();
+			MobileElement el24 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
+			el24.click();
+			MobileElement el25 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.CheckBox[2]");
+			el25.click();
+			MobileElement el26 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
+			el26.click();
+			MobileElement el27 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.CheckBox[3]");
+			el27.click();
+			MobileElement el28 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
+			el28.click();
+			
+			MobileElement el29 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.Button");
+			el29.click();
+			MobileElement el30 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.CheckBox");
+			el30.click();
+			
+			MobileElement el31 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
+			el31.click();
+			MobileElement el32 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button");
+			el32.click();
+			MobileElement el33 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
+			el33.click();
+			MobileElement el34 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.view.View");
+			el34.click();
+			MobileElement el35 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
+			el35.click();
+			MobileElement el36 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[1]");
+			el36.click();
+		
+			  
+			MobileElement el37 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.Button");
+			el37.click();
+			MobileElement el38 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button[1]");
+			el38.click();
+			
+			  
+			MobileElement el39 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button[2]");
+			el39.click();
+			MobileElement el40 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
+			el40.click();
+			
+			  
+			MobileElement el41 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button");
+			el41.click();
+			MobileElement el42 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
+			el42.click();
+		
+			  
+			MobileElement el43 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
+			el43.click();
+			MobileElement el44 = (MobileElement) driver.findElementById("android:id/button1");
+			el44.click();
+			MobileElement el45 = (MobileElement) driver.findElementByAccessibilityId("Revenir en haut de la page");
+			el45.click();
 
 			
 
@@ -372,8 +548,8 @@ public class TestngSamsung {
 			btnGalery.click();
 			
 			Thread.sleep(1500);
-			@SuppressWarnings("rawtypes")
-			TouchAction FolderPhoto = new TouchAction(driver);
+			//@SuppressWarnings("rawtypes")
+			//TouchAction FolderPhoto = new TouchAction(driver);
 			@SuppressWarnings("rawtypes")
 			TouchAction SelectPhoto = new TouchAction(driver);
 			SelectPhoto.tap(PointOption.point(120, 250)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000))).perform();
@@ -405,7 +581,6 @@ public class TestngSamsung {
 			MobileElement retour = (MobileElement) driver.findElementByAndroidUIAutomator("UiSelector().description(\"Revenir en haut de la page\")");
 			retour.click();
 		}
-	}
  
   @Test
 	public void finBoucle() {
