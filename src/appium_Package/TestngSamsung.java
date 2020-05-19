@@ -27,8 +27,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+/*import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;*/
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -103,7 +103,7 @@ public class TestngSamsung {
 		}
 
 	 
-	@Test
+	@Test(invocationCount = 10)
 	public void CreateAccount() throws InterruptedException {
 		// Page Home				
 
@@ -266,8 +266,9 @@ public class TestngSamsung {
 			
 			MobileElement FirstName = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.FrameLayout/android.widget.EditText"));
 			FirstName.clear();
-			FirstName.sendKeys("Aicha");
+			FirstName.sendKeys("Amadou");
 			
+
 			
 			// Prénom et Nom du jeune fille de la mère
 			MobileElement firstNameLastNameMother = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[5]/android.widget.FrameLayout/android.widget.EditText"));
@@ -276,8 +277,19 @@ public class TestngSamsung {
 			System.out.println("Prénom et Nom de jeune fille de la mère");
 			
 			MobileElement dateNaissance = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[6]/android.widget.FrameLayout/android.widget.EditText"));
-			dateNaissance.clear();
-			dateNaissance.sendKeys("20/12/1995");
+			dateNaissance.click();			
+			MobileElement Year = driver.findElement(By.id("android:id/date_picker_header_year"));
+			Year.click();
+			Thread.sleep(2000);
+			Bottom.press(PointOption.point(600, 825)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(600, 1080)).release().perform();
+			Bottom.press(PointOption.point(600, 825)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(600, 1080)).release().perform();
+			Bottom.press(PointOption.point(600, 825)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(600, 1080)).release().perform();
+			Bottom.press(PointOption.point(600, 825)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(600, 1080)).release().perform();
+			
+			List<MobileElement> listYear = driver.findElements(By.className("android.widget.TextView"));
+		    listYear.get(1).click();
+		    MobileElement BtnOk = driver.findElement(By.id("android:id/button1"));
+		    BtnOk.click();
 			
 			MobileElement ville = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText"));
 			ville.clear();
@@ -288,6 +300,21 @@ public class TestngSamsung {
 			lieuDeNaissance.sendKeys("Douala");
 			System.out.println("Lieu de Naissance : " + lieuDeNaissance.getText());
 			
+			// Liste Pièce d'identité
+			MobileElement cni = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Spinner[3]/android.widget.TextView"));
+		    cni.click();
+		    
+		    List<MobileElement> listPieceCni = driver.findElements(By.className("android.widget.CheckedTextView"));
+		    for(MobileElement typePieceCni : listPieceCni) {
+		    	System.out.println("**** Type de pièce : " + typePieceCni.getText() + " ****");
+		    }
+		    
+		    // click sur le CNI - NOUVELLE
+		    Thread.sleep(2000);
+		    listPieceCni.get(10).click();
+		    System.out.println("Choix du type de pièce d'identité : ");
+		    
+		    Thread.sleep(1500);
 			// Numéro pièce d'identité
 			MobileElement numberCni = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[10]/android.widget.FrameLayout/android.widget.EditText"));
 		    
@@ -307,17 +334,33 @@ public class TestngSamsung {
 
 			//Délivrer le
 			MobileElement dateDelivrance = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[12]/android.widget.FrameLayout/android.widget.EditText"));
-			dateDelivrance.clear();
-			dateDelivrance.sendKeys("15-07-2018");
-			System.out.println("Date de Délivrance : " + dateDelivrance.getText());
+			dateDelivrance.click();
+			
+			MobileElement YearDelivre = driver.findElement(By.id("android:id/date_picker_header_year"));
+			YearDelivre.click();
+			Thread.sleep(2000);
+			Bottom.press(PointOption.point(600, 825)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(600, 1080)).release().perform();
+			
+			List<MobileElement> listYearDelivre = driver.findElements(By.className("android.widget.TextView"));
+			listYearDelivre.get(1).click();
+		    MobileElement BtnOkDelivre = driver.findElement(By.id("android:id/button1"));
+		    BtnOkDelivre.click();
 			
 			// Expiration CNI
 			//Délivrer le
 			MobileElement expiration = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[13]/android.widget.FrameLayout/android.widget.EditText"));
-			expiration.clear();
-			expiration.sendKeys("15-07-2028");
-			System.out.println("Date de Délivrance : " + expiration.getText());
+			expiration.click();
+			MobileElement YearExpire = driver.findElement(By.id("android:id/date_picker_header_year"));
+			YearExpire.click();
+			Thread.sleep(2000);
+			Bottom.press(PointOption.point(600, 1080)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(600, 825)).release().perform();
+			Bottom.press(PointOption.point(600, 1080)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(600, 825)).release().perform();
 			
+			List<MobileElement> listYearExpire = driver.findElements(By.className("android.widget.TextView"));
+			listYearExpire.get(1).click();
+		    MobileElement BtnOkExpire = driver.findElement(By.id("android:id/button1"));
+		    BtnOkExpire.click();
+			Thread.sleep(2000);
 			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
 			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
 			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
@@ -359,148 +402,204 @@ public class TestngSamsung {
 		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.Button"
 		 * ); el15.click();
 		 */
-			  
-			MobileElement el16 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.EditText");
-			el16.sendKeys("774220139");
-			MobileElement pays = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[1]");
+			MobileElement num1 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.EditText");
+			num1.sendKeys("774220139");
 			
-			pays.sendKeys("ivoirienne");
+			MobileElement num2 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.EditText");
+			num2.sendKeys("764220139");
+			
+			MobileElement nationalite = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[1]");
+			nationalite.sendKeys("ivoirienne");
+			
+			MobileElement adresse = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[4]/android.widget.FrameLayout/android.widget.EditText"));
+			adresse.sendKeys("Plateau villa N*72");
+			System.out.println("Adresse : " + adresse.getText());
+			
+			MobileElement etude = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Spinner/android.widget.TextView"));
+			etude.click();
+			
+			List<MobileElement> listEtude = driver.findElements(By.className("android.widget.CheckedTextView"));
+		    for(MobileElement choixEtude : listEtude) {
+		    	System.out.println("**** Niveau d'etude : " + choixEtude.getText());
+		    }
+		    listEtude.get(4).click();
+			Thread.sleep(1500);
 			MobileElement el19 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[3]");
 			el19.sendKeys("BECIDA");
 			MobileElement el20 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout[8]");
 			el20.click();
-			el20.click();
 			MobileElement el21 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[4]");
 			el21.sendKeys("Abedem");
-			MobileElement el22 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.Button");
-			el22.click();
-			MobileElement el23 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.CheckBox[1]");
-			el23.click();
-			MobileElement el24 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
-			el24.click();
-			MobileElement el25 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.CheckBox[2]");
-			el25.click();
-			MobileElement el26 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
-			el26.click();
-			MobileElement el27 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.CheckBox[3]");
-			el27.click();
-			MobileElement el28 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
-			el28.click();
 			
-			MobileElement el29 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.Button");
-			el29.click();
-			MobileElement el30 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.CheckBox");
-			el30.click();
+			// Dépli Engagement
+			MobileElement engagement = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.Button");
+			engagement.click();
 			
-			MobileElement el31 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
-			el31.click();
-			MobileElement el32 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button");
-			el32.click();
-			MobileElement el33 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
-			el33.click();
-			MobileElement el34 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.view.View");
-			el34.click();
-			MobileElement el35 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
-			el35.click();
-			MobileElement el36 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[1]");
-			el36.click();
-		
-			  
-			MobileElement el37 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.Button");
-			el37.click();
-			MobileElement el38 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button[1]");
-			el38.click();
+			//Contrats
+			MobileElement adhesion = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.CheckBox[1]");
+			adhesion.click();
+			MobileElement accept1 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
+			accept1.click();
 			
-			  
-			MobileElement el39 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button[2]");
-			el39.click();
-			MobileElement el40 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
-			el40.click();
+			MobileElement lettre = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.CheckBox[2]");
+			lettre.click();
+			MobileElement accept2 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
+			accept2.click();
 			
-			  
-			MobileElement el41 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button");
-			el41.click();
-			MobileElement el42 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
-			el42.click();
-		
-			  
-			MobileElement el43 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]");
-			el43.click();
-			MobileElement el44 = (MobileElement) driver.findElementById("android:id/button1");
-			el44.click();
-			MobileElement el45 = (MobileElement) driver.findElementByAccessibilityId("Revenir en haut de la page");
-			el45.click();
-
+			MobileElement formulaire = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.CheckBox[3]");
+			formulaire.click();
+			MobileElement accept3 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
+			accept3.click();
 			
-
-
-			
-
-			MobileElement cooperative = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[2]"));
-			cooperative.clear();
-			cooperative.sendKeys("SECOM");
-			
-//			cooperative.sendKeys(Keys.RETURN);
-//			((PressesKey) driver).pressKey(new KeyEvent(AndroidKey.BACK));
-			
-			
-			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-				
-			// Dépli Engagement				    
-			MobileElement engagements = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.Button"));
-			engagements.click();
-			System.out.println("Click sur le bouton 'Engagement'");
-
-			
-			// Parcourir les checkBox
-			List<MobileElement> engagementsCheckBox = driver.findElements(By.className("android.widget.CheckBox"));
-			    
-
-			//String firstCheckBox = engagementsCheckBox.get(1).getAttribute("checked");
-			if(engagementsCheckBox.get(0).isDisplayed()) {
-				engagementsCheckBox.get(0).click();
-			}
-			
-			Thread.sleep(2000);
-			MobileElement accepter = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]"));
-			System.out.println("Choix du Contrat : " + accepter.getText());
-			accepter.click();
-			
-			Thread.sleep(3000);
-			engagementsCheckBox.get(1).click();
-			Thread.sleep(2000);				    
-			MobileElement accepter2 = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]"));
-			accepter2.click();
-			System.out.println("Choix du Contrat : " + accepter2.getText());
-			
-			Thread.sleep(3000);
-			Bottom.press(PointOption.point(350, 750)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-			
-			if(engagementsCheckBox.get(2).isDisplayed()) {
-				engagementsCheckBox.get(2).click();
-			}	
-			Thread.sleep(2000);
-			MobileElement accepter3 = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]"));
-			accepter3.click();
-			System.out.println("Choix du Contrat : " + accepter3.getText());				    
-
+			// Condition générale
+			MobileElement CG = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.Button");
+			CG.click();
 			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
 			
-			MobileElement conditionsGeneralesTab = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.Button"));
-			conditionsGeneralesTab.click();				    
+			// lire condition générale
+			MobileElement readCG = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.CheckBox");
+			readCG.click();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			
+			
+			MobileElement acceptContrat = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]");
+			acceptContrat.click();
+			MobileElement sign = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button");
+			sign.click();
+		/*
+		 * MobileElement el33 = (MobileElement) driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"
+		 * ); el33.click(); MobileElement el34 = (MobileElement)
+		 * driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.view.View"
+		 * ); el34.click(); MobileElement el35 = (MobileElement)
+		 * driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"
+		 * ); el35.click(); MobileElement el36 = (MobileElement)
+		 * driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[1]"
+		 * ); el36.click();
+		 * 
+		 * 
+		 * MobileElement el37 = (MobileElement) driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.Button"
+		 * ); el37.click(); MobileElement el38 = (MobileElement)
+		 * driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button[1]"
+		 * ); el38.click();
+		 * 
+		 * 
+		 * MobileElement el39 = (MobileElement) driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button[2]"
+		 * ); el39.click(); MobileElement el40 = (MobileElement)
+		 * driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"
+		 * ); el40.click();
+		 * 
+		 * 
+		 * MobileElement el41 = (MobileElement) driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button"
+		 * ); el41.click(); MobileElement el42 = (MobileElement)
+		 * driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"
+		 * ); el42.click();
+		 * 
+		 * 
+		 * MobileElement el43 = (MobileElement) driver.findElementByXPath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"
+		 * ); el43.click(); MobileElement el44 = (MobileElement)
+		 * driver.findElementById("android:id/button1"); el44.click(); MobileElement
+		 * el45 = (MobileElement)
+		 * driver.findElementByAccessibilityId("Revenir en haut de la page");
+		 * el45.click();
+		 */
+			
+
 
 			
-			MobileElement cg = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.CheckBox"));
-			cg.click();
-			Thread.sleep(1000);
-			// Accepter les conditions générales
-			List<MobileElement> acceptCG = driver.findElements(By.className("android.widget.Button"));
-			acceptCG.get(0).click();
-			System.out.println("Accepter les Conditions Générales");
+
+		/*
+		 * MobileElement cooperative = driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.EditText[2]"
+		 * )); cooperative.clear(); cooperative.sendKeys("SECOM");
+		 * 
+		 * // cooperative.sendKeys(Keys.RETURN); // ((PressesKey) driver).pressKey(new
+		 * KeyEvent(AndroidKey.BACK));
+		 * 
+		 * 
+		 * Bottom.press(PointOption.point(350,
+		 * 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(350, 400)).release().perform();
+		 * 
+		 * // Dépli Engagement MobileElement engagements = (MobileElement)
+		 * driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.Button"
+		 * )); engagements.click();
+		 * System.out.println("Click sur le bouton 'Engagement'");
+		 * 
+		 * 
+		 * // Parcourir les checkBox List<MobileElement> engagementsCheckBox =
+		 * driver.findElements(By.className("android.widget.CheckBox"));
+		 * 
+		 * 
+		 * //String firstCheckBox = engagementsCheckBox.get(1).getAttribute("checked");
+		 * if(engagementsCheckBox.get(0).isDisplayed()) {
+		 * engagementsCheckBox.get(0).click(); }
+		 * 
+		 * Thread.sleep(2000); MobileElement accepter = driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]"
+		 * )); System.out.println("Choix du Contrat : " + accepter.getText());
+		 * accepter.click();
+		 * 
+		 * Thread.sleep(3000); engagementsCheckBox.get(1).click(); Thread.sleep(2000);
+		 * MobileElement accepter2 = driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]"
+		 * )); accepter2.click(); System.out.println("Choix du Contrat : " +
+		 * accepter2.getText());
+		 * 
+		 * Thread.sleep(3000); Bottom.press(PointOption.point(350,
+		 * 750)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(350, 400)).release().perform();
+		 * 
+		 * if(engagementsCheckBox.get(2).isDisplayed()) {
+		 * engagementsCheckBox.get(2).click(); } Thread.sleep(2000); MobileElement
+		 * accepter3 = driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[1]"
+		 * )); accepter3.click(); System.out.println("Choix du Contrat : " +
+		 * accepter3.getText());
+		 * 
+		 * Bottom.press(PointOption.point(350,
+		 * 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(
+		 * PointOption.point(350, 400)).release().perform();
+		 * 
+		 * MobileElement conditionsGeneralesTab = driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.Button"
+		 * )); conditionsGeneralesTab.click();
+		 * 
+		 * 
+		 * MobileElement cg = driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.CheckBox"
+		 * )); cg.click(); Thread.sleep(1000); // Accepter les conditions générales
+		 * List<MobileElement> acceptCG =
+		 * driver.findElements(By.className("android.widget.Button"));
+		 * acceptCG.get(0).click();
+		 * System.out.println("Accepter les Conditions Générales");
+		 */
 			
 			// Cliquer sur le bouton Signature
-			MobileElement btnSign = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.View/android.view.View/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button")); 
-			btnSign.click();
+		/*
+		 * MobileElement btnSign = driver.findElement(By.xpath(
+		 * "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.View/android.view.View/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button"
+		 * )); btnSign.click();
+		 */
 			
 			// Signature Manuelle
 			MobileElement signManuel = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"));
@@ -519,7 +618,6 @@ public class TestngSamsung {
 				// Valider la signature
 				MobileElement signValidate = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[1]"));
 				signValidate.click();
-				System.out.println("Choix de la signature : " + signValidate.getText());
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println(e.getMessage());
@@ -531,55 +629,107 @@ public class TestngSamsung {
 			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
 			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
 
-			MobileElement pieceJointe = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.View/android.view.View/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.Button"));
+			MobileElement pieceJointe = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[3]/android.widget.Button"));
 			pieceJointe.click();
 			System.out.println("Click sur pièce Jointe");
 
 			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			
+			// OCR - ID RECTO
+			MobileElement RECTO = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button[1]"));
+			RECTO.click();
+			Thread.sleep(1500);
+			
+			MobileElement Gallery = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"));
+			Gallery.click();
+			
+			Thread.sleep(2000);
+			@SuppressWarnings("rawtypes")
+			TouchAction FolderPhotoRecto = new TouchAction(driver);
+			FolderPhotoRecto.tap(PointOption.point(240, 350)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).perform();
+			
+			MobileElement trimSava3 = driver.findElement(By.id("com.sec.android.gallery3d:id/save"));
+			trimSava3.click();
+			System.out.println("Enregistrement de la photo Recto");
+			Thread.sleep(2000);
 			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
 			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-
-			MobileElement photo = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.View/android.view.View/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button"));
+			
+			
+			
+			// OCR - ID Verso
+			MobileElement Verso = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button[1]"));
+			Verso.click();
+			
+			MobileElement Gallery2 = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"));
+			Gallery2.click();
+			
+			Thread.sleep(2000);
+			@SuppressWarnings("rawtypes")
+			TouchAction FolderPhotoVerso = new TouchAction(driver);
+			FolderPhotoVerso.tap(PointOption.point(240, 350)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).perform();
+			
+			MobileElement trimSava4 = driver.findElement(By.id("com.sec.android.gallery3d:id/save"));
+			trimSava4.click();
+			System.out.println("Enregistrement de la photo Verso");
+			
+			Thread.sleep(2000);
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			
+			
+			
+			
+			
+			// Photo
+			MobileElement photo = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.widget.Button[1]"));
 			photo.click();
 			System.out.println("Click sur bouton photo");
 
-//			Thread.sleep(2000);
-			MobileElement btnGalery = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"));
-			btnGalery.click();
+			MobileElement Gallery3 = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"));
+			Gallery3.click();
+			
+			Thread.sleep(2000);
+			@SuppressWarnings("rawtypes")
+			TouchAction Photo = new TouchAction(driver);
+			Photo.tap(PointOption.point(240, 350)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).perform();
+			
+			MobileElement trimSava5 = driver.findElement(By.id("com.sec.android.gallery3d:id/save"));
+			trimSava5.click();
+			System.out.println("Enregistrement de la photo");
+			
+			Thread.sleep(2000);
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
+			
 			
 			Thread.sleep(1500);
-			//@SuppressWarnings("rawtypes")
-			//TouchAction FolderPhoto = new TouchAction(driver);
-			@SuppressWarnings("rawtypes")
-			TouchAction SelectPhoto = new TouchAction(driver);
-			SelectPhoto.tap(PointOption.point(120, 250)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000))).perform();
-			System.out.println("Selection du photo");
-
-			MobileElement trimSava3 = driver.findElement(By.id("com.android.gallery3d:id/trim_save"));
-			trimSava3.click();
-			System.out.println("Enregistrement de la photo");
-
-			Thread.sleep(1500);
-			Bottom.press(PointOption.point(350, 1000)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-			//Bottom.press(PointOption.point(350, 800)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1500))).moveTo(PointOption.point(350, 400)).release().perform();
-		
-			MobileElement saveAndSend = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.View/android.view.View/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"));
+			
+			MobileElement saveAndSend = driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.Button[2]"));
 			saveAndSend.click();
 			System.out.println("Inscription terminé");
 			System.out.println("*********************************************");
-					    
-		    Thread.sleep(2000);
+			
+			Thread.sleep(2000);
+			
+			try {
 		    @SuppressWarnings("rawtypes")
-			TouchAction endInscription = new TouchAction(driver);
-		    endInscription.tap(PointOption.point(300, 300)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000))).perform();
+			TouchAction popUp = new TouchAction(driver);
+		    popUp.tap(PointOption.point(550, 580)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(3000))).perform();
+			}catch(Exception e) {
+				
+			}
+		    Thread.sleep(2000);
+		    List<MobileElement> retour1 = driver.findElementsByClassName("android.widget.ImageButton");
+			retour1.get(0).click();
 			
-
-//			((PressesKey) driver).pressKey(new KeyEvent(AndroidKey.BACK));
-//			
-			Thread.sleep(1000);
+		/*
+		 * System.out.println("test 2"); MobileElement retour = (MobileElement) driver.
+		 * findElementByAndroidUIAutomator("UiSelector().description(\"Revenir en haut de la page\")"
+		 * ); retour.click();
+		 */
 			
-			MobileElement retour = (MobileElement) driver.findElementByAndroidUIAutomator("UiSelector().description(\"Revenir en haut de la page\")");
-			retour.click();
+			System.out.println("test 3");
 		}
  
   @Test
@@ -591,7 +741,7 @@ public class TestngSamsung {
 	public void tearDown() throws InterruptedException {
 		if (driver != null) {
 			Thread.sleep(3000);
-			driver.quit();
+			//driver.quit();
 		}
 	}
 
